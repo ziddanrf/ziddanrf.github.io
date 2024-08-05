@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenère Cipher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+            animation: fadeInLeft 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s;
+            animation: fadeInRight 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            width: calc(50% - 10px);
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        button:last-child {
+            margin-right: 0;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vigenère Cipher</h1>
+        <div class="form-group">
+            <label for="plainText">Plaintext:</label>
+            <input type="text" id="plainText" placeholder="Enter plaintext">
+        </div>
+        <div class="form-group">
+            <label for="key">Key:</label>
+            <input type="text" id="key" placeholder="Enter key">
+        </div>
+        <div class="form-group">
+            <button id="encryptBtn">Encrypt</button>
+            <button id="decryptBtn">Decrypt</button>
+        </div>
+        <div class="form-group">
+            <label for="result">Result:</label>
+            <textarea id="result" rows="4" readonly></textarea>
+        </div>
+    </div>
+    <script>
+        // Fungsi untuk mengenkripsi pesan menggunakan Vigenère Cipher
+        function vigenereEncrypt(plainText, key) {
+            let encryptedText = '';
+            plainText = plainText.toLowerCase();
+            key = key.toLowerCase();
+            let keyIndex = 0;
+
+            for (let i = 0; i < plainText.length; i++) {
+                if (plainText[i] >= 'a' && plainText[i] <= 'z') {
+                    let charCode = (plainText.charCodeAt(i) - 97 + key.charCodeAt(keyIndex % key.length) - 97) % 26;
+                    encryptedText += String.fromCharCode(charCode + 97);
+                    keyIndex++;
+                } else {
+                    encryptedText += plainText[i]; // Biarkan karakter non-alfabet tetap
+                }
+            }
+
+            return encryptedText;
+        }
+
+        // Fungsi untuk mendekripsi pesan menggunakan Vigenère Cipher
+        function vigenereDecrypt(encryptedText, key) {
+            let decryptedText = '';
+            encryptedText = encryptedText.toLowerCase();
+            key = key.toLowerCase();
+            let keyIndex = 0;
+
+            for (let i = 0; i < encryptedText.length; i++) {
+                if (encryptedText[i] >= 'a' && encryptedText[i] <= 'z') {
+                    let charCode = (encryptedText.charCodeAt(i) - key.charCodeAt(keyIndex % key.length) + 26) % 26;
+                    decryptedText += String.fromCharCode(charCode + 97);
+                    keyIndex++;
+                } else {
+                    decryptedText += encryptedText[i]; // Biarkan karakter non-alfabet tetap
+                }
+            }
+
+            return decryptedText;
+        }
+
+        // Fungsi untuk menangani klik tombol "Encrypt"
+        function encrypt() {
+            const plainText = document.getElementById('plainText').value;
+            const key = document.getElementById('key').value;
+            const encryptedText = vigenereEncrypt(plainText, key);
+            document.getElementById('result').value = encryptedText;
+        }
+
+        // Fungsi untuk menangani klik tombol "Decrypt"
+        function decrypt() {
+            const encryptedText = document.getElementById('result').value;
+            const key = document.getElementById('key').value;
+            const decryptedText = vigenereDecrypt(encryptedText, key);
+            document.getElementById('result').value = decryptedText;
+        }
+
+        // Tambahkan event listener untuk tombol
+        document.getElementById('encryptBtn').addEventListener('click', encrypt);
+        document.getElementById('decryptBtn').addEventListener('click', decrypt);
+    </script>
+</body>
+</html>
