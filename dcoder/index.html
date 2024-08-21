@@ -95,9 +95,14 @@
             }
         }
 
-        input:focus, textarea:focus {
+        input:focus {
             border-color: #007bff;
             outline: none;
+        }
+
+        textarea[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
         }
 
         button {
@@ -125,6 +130,11 @@
         button:active {
             transform: scale(0.95);
         }
+
+        #copyBtn {
+            margin-top: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -146,6 +156,7 @@
             <label for="result">Result:</label>
             <textarea id="result" rows="4" readonly></textarea>
         </div>
+        <button id="copyBtn">Salin</button>
     </div>
     <script>
         // Fungsi untuk mengenkripsi pesan menggunakan Vigenère Cipher
@@ -176,7 +187,8 @@
             let keyIndex = 0;
 
             for (let i = 0; i < encryptedText.length; i++) {
-                if (encryptedText[i] >= 'a' && encryptedText[i] <= 'z') {
+                if (encrypted
+                    encryptedText[i] >= 'a' && encryptedText[i] <= 'z') {
                     let charCode = (encryptedText.charCodeAt(i) - key.charCodeAt(keyIndex % key.length) + 26) % 26;
                     decryptedText += String.fromCharCode(charCode + 97);
                     keyIndex++;
@@ -204,9 +216,19 @@
             document.getElementById('result').value = decryptedText;
         }
 
+        // Fungsi untuk menyalin teks ke clipboard
+        function copyToClipboard() {
+            const result = document.getElementById('result');
+            result.select();
+            result.setSelectionRange(0, 99999); // Untuk perangkat seluler
+            document.execCommand('copy');
+            alert('Teks telah disalin ke clipboard');
+        }
+
         // Tambahkan event listener untuk tombol
         document.getElementById('encryptBtn').addEventListener('click', encrypt);
         document.getElementById('decryptBtn').addEventListener('click', decrypt);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
     </script>
 </body>
 </html>
