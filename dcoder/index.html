@@ -187,8 +187,7 @@
             let keyIndex = 0;
 
             for (let i = 0; i < encryptedText.length; i++) {
-                if (encrypted
-                    encryptedText[i] >= 'a' && encryptedText[i] <= 'z') {
+                if (encryptedText[i] >= 'a' && encryptedText[i] <= 'z') {
                     let charCode = (encryptedText.charCodeAt(i) - key.charCodeAt(keyIndex % key.length) + 26) % 26;
                     decryptedText += String.fromCharCode(charCode + 97);
                     keyIndex++;
