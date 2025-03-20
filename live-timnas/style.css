@@ -185,13 +185,13 @@ footer {
 
 @media (max-width: 768px) {
     .konten {
-        margin: 0 50px;
+        margin: 100px 50px;
     }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .konten {
-        margin: 0 100px;
+        margin: 100px 100px;
     }
 }
 
