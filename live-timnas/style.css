@@ -34,7 +34,7 @@ body{
     background-position: center;
     padding: 20px;
     border-radius: 10px;
-    margin: 0 50px;
+    margin: 0 400px;
     margin-bottom: 100px;
 }
 
@@ -182,7 +182,18 @@ footer {
     font-weight: 900;
     font-style: italic;
   }
-  
+
+@media (max-width: 768px) {
+    .konten {
+        margin: 0 50px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .konten {
+        margin: 0 100px;
+    }
+}
 
   @keyframes colorChange {
     0% {
