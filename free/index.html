@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Gratis dari FMHY</title>
+  <link rel="icon" href="https://fmhy.net/wp-content/uploads/2021/09/cropped-favicon-32x32.png">
+  <style>
+    :root {
+      --primary: #4caf50;
+      --bg: #181a1b;
+      --card: #23272a;
+      --text: #fff;
+      --muted: #bdbdbd;
+      --accent: #ff9800;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--card);
+      padding: 32px 0 24px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px #0002;
+      position: relative;
+    }
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 10px;
+      display: inline-block;
+      animation: logoPop 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes logoPop {
+      0% { transform: scale(0.2) rotate(-30deg); opacity: 0; }
+      60% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); }
+    }
+    h1 {
+      font-size: 2.2em;
+      color: var(--primary);
+      margin: 0 0 8px 0;
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px #0003;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+    .search-box {
+      margin: 18px auto 0 auto;
+      max-width: 400px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border-radius: 25px;
+      border: none;
+      background: #222;
+      color: #fff;
+      font-size: 1em;
+      outline: none;
+      box-shadow: 0 2px 8px #0002;
+      transition: box-shadow 0.2s;
+    }
+    .search-box input:focus {
+      box-shadow: 0 4px 16px #0004;
+    }
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 1.2em;
+      pointer-events: none;
+    }
+    main {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 22px;
+    }
+    .link-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px 16px 20px 16px;
+      box-shadow: 0 2px 8px #0002;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      text-decoration: none;
+      min-height: 170px;
+    }
+    .link-item:hover {
+      transform: translateY(-6px) scale(1.04) rotate(-1deg);
+      box-shadow: 0 8px 24px #0004;
+      background: #263238;
+      border-color: var(--primary);
+      text-decoration: none;
+    }
+    .link-icon {
+      font-size: 2.7em;
+      margin-bottom: 18px;
+      color: var(--primary);
+      transition: color 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 54px;
+    }
+    .link-item:hover .link-icon {
+      color: var(--accent);
+      transform: scale(1.15) rotate(-6deg);
+    }
+    .link-desc {
+      color: var(--text);
+      font-size: 1.08em;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      color: #bdbdbd;
+      padding: 20px 0 10px 0;
+      font-size: 0.95em;
+      margin-top: 30px;
+    }
+    /* Perubahan di bawah ini */
+    @media (max-width: 700px) {
+      h1 { font-size: 1.3em; }
+      main { padding: 0 4px; }
+      .links { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- SVG Smiley Glasses Logo -->
+    <div class="logo">
+      <svg viewBox="0 0 64 64" fill="none">
+        <!-- Face -->
+        <circle cx="32" cy="32" r="30" fill="#4caf50" stroke="#fff" stroke-width="4"/>
+        <!-- Smile -->
+        <path d="M22 38 Q32 48 42 38" stroke="#181a1b" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Left eye -->
+        <ellipse cx="24" cy="28" rx="5" ry="5" fill="#fff" stroke="#181a1b" stroke-width="2"/>
+        <ellipse cx="24" cy="28" rx="2" ry="2" fill="#181a1b"/>
+        <!-- Right eye -->
+        <ellipse cx="40" cy="28" rx="5" ry="5" fill="#fff" stroke="#181a1b" stroke-width="2"/>
+        <ellipse cx="40" cy="28" rx="2" ry="2" fill="#181a1b"/>
+        <!-- Glasses bridge -->
+        <rect x="28" y="26" width="8" height="2" rx="1" fill="#181a1b"/>
+        <!-- Left glasses arm -->
+        <rect x="16" y="27" width="4" height="2" rx="1" fill="#181a1b"/>
+        <!-- Right glasses arm -->
+        <rect x="44" y="27" width="4" height="2" rx="1" fill="#181a1b"/>
+      </svg>
+    </div>
+    <h1>Media Gratis dari FMHY</h1>
+    <div class="subtitle">
+      Temukan berbagai sumber media gratis: streaming, buku, game, software, AI, edukasi, dan banyak lagi. Semua link dikurasi dari komunitas FMHY untuk kebutuhan digital Anda!
+    </div>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Cari kategori...">
+      <span class="search-icon">&#128269;</span>
+    </div>
+  </header>
+  <main>
+    <div class="links">
+      <a class="link-item" href="https://fmhy.pages.dev/ai" target="_blank">
+        <span class="link-icon">🤖</span>
+        <div class="link-desc">Artificial Intelligence<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Tools & sumber AI gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.net/adblockvpnguide" target="_blank">
+        <span class="link-icon">🛡️</span>
+        <div class="link-desc">Adblocking / Privacy<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Blokir iklan & jaga privasi online</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.net/videopiracyguide" target="_blank">
+        <span class="link-icon">🎬</span>
+        <div class="link-desc">Streaming<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Nonton film & serial gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/audiopiracyguide" target="_blank">
+        <span class="link-icon">🎧</span>
+        <div class="link-desc">Listening<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Musik, podcast, audiobook gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/gamingpiracyguide" target="_blank">
+        <span class="link-icon">🎮</span>
+        <div class="link-desc">Gaming<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Game PC & konsol gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/readingpiracyguide" target="_blank">
+        <span class="link-icon">📚</span>
+        <div class="link-desc">Reading<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Buku, komik, jurnal gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/downloadpiracyguide" target="_blank">
+        <span class="link-icon">⬇️</span>
+        <div class="link-desc">Downloading<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Situs download file gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/torrentpiracyguide" target="_blank">
+        <span class="link-icon">🌊</span>
+        <div class="link-desc">Torrenting<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Situs torrent & tracker</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/edupiracyguide" target="_blank">
+        <span class="link-icon">🎓</span>
+        <div class="link-desc">Educational<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Belajar online & sumber edukasi</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/android-iosguide" target="_blank">
+        <span class="link-icon">📱</span>
+        <div class="link-desc">Android / iOS<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Aplikasi & game mobile gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/linuxguide" target="_blank">
+        <span class="link-icon">💻</span>
+        <div class="link-desc">Linux / MacOS<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Sumber software & tools gratis</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/non-english" target="_blank">
+        <span class="link-icon">🌐</span>
+        <div class="link-desc">Non English<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Sumber media non-Inggris</span></div>
+      </a>
+      <a class="link-item" href="https://fmhy.pages.dev/miscguide" target="_blank">
+        <span class="link-icon">✨</span>
+        <div class="link-desc">Miscellaneous<br><span style="font-weight:400;color:var(--muted);font-size:0.97em;">Lain-lain: tools, tips, dll</span></div>
+      </a>
+    </div>
+  </main>
+  <footer>
+    &copy; 2024 Media Gratis dari FMHY. Semua hak cipta dilindungi.
+  </footer>
+  <script>
+    // Simple search filter
+    document.getElementById('search').addEventListener('input', function(e) {
+      const val = e.target.value.toLowerCase();
+      document.querySelectorAll('.link-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(val) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
