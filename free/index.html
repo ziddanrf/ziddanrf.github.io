@@ -53,39 +53,11 @@
       font-size: 1.1em;
       margin-bottom: 10px;
     }
-    .search-box {
-      margin: 18px auto 0 auto;
-      max-width: 400px;
-      position: relative;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 12px 40px 12px 16px;
-      border-radius: 25px;
-      border: none;
-      background: #222;
-      color: #fff;
-      font-size: 1em;
-      outline: none;
-      box-shadow: 0 2px 8px #0002;
-      transition: box-shadow 0.2s;
-    }
-    .search-box input:focus {
-      box-shadow: 0 4px 16px #0004;
-    }
-    .search-icon {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 1.2em;
-      pointer-events: none;
-    }
     main {
       max-width: 1100px;
       margin: 32px auto;
-      padding: 0 16px;
+      padding: 0 50px;
+      box-sizing: border-box;
     }
     .links {
       display: grid;
@@ -107,7 +79,7 @@
       border: 1.5px solid transparent;
       text-decoration: none;
       min-height: 0;
-      aspect-ratio: 1 / 1; /* Membuat card kotak */
+      aspect-ratio: 1 / 1;
       justify-content: center;
     }
     .link-item:hover {
@@ -148,10 +120,6 @@
       margin-top: 30px;
     }
     @media (max-width: 700px) {
-      body {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
       .logo {
         width: 44px;
         height: 44px;
@@ -163,9 +131,14 @@
       }
       .subtitle {
         font-size: 0.95em;
+        padding-left: 12px;
+        padding-right: 12px;
+        box-sizing: border-box;
       }
-      main { padding: 0; }
-      .links { grid-template-columns: repeat(3, 1fr); }
+      main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
       .link-icon {
         font-size: 1.5em;
         margin-bottom: 10px;
@@ -177,6 +150,7 @@
       .link-item {
         padding: 14px 6px 10px 6px;
       }
+      .links { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
@@ -206,10 +180,6 @@
     <h1>Media Gratis dari FMHY</h1>
     <div class="subtitle">
       Temukan berbagai sumber media gratis: streaming, buku, game, software, AI, edukasi, dan banyak lagi. Semua link dikurasi dari komunitas FMHY untuk kebutuhan digital Anda!
-    </div>
-    <div class="search-box">
-      <input type="text" id="search" placeholder="Cari kategori...">
-      <span class="search-icon">&#128269;</span>
     </div>
   </header>
   <main>
@@ -271,15 +241,5 @@
   <footer>
     &copy; 2024 Media Gratis dari FMHY. Semua hak cipta dilindungi.
   </footer>
-  <script>
-    // Simple search filter
-    document.getElementById('search').addEventListener('input', function(e) {
-      const val = e.target.value.toLowerCase();
-      document.querySelectorAll('.link-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(val) ? '' : 'none';
-      });
-    });
-  </script>
 </body>
 </html>
