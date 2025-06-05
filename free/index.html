@@ -106,7 +106,9 @@
       cursor: pointer;
       border: 1.5px solid transparent;
       text-decoration: none;
-      min-height: 170px;
+      min-height: 0;
+      aspect-ratio: 1 / 1; /* Membuat card kotak */
+      justify-content: center;
     }
     .link-item:hover {
       transform: translateY(-6px) scale(1.04) rotate(-1deg);
@@ -145,11 +147,32 @@
       font-size: 0.95em;
       margin-top: 30px;
     }
-    /* Perubahan di bawah ini */
     @media (max-width: 700px) {
-      h1 { font-size: 1.3em; }
+      .logo {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 6px;
+      }
+      h1 {
+        font-size: 1.1em;
+        margin-bottom: 4px;
+      }
+      .subtitle {
+        font-size: 0.95em;
+      }
       main { padding: 0 4px; }
       .links { grid-template-columns: repeat(3, 1fr); }
+      .link-icon {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        height: 32px;
+      }
+      .link-desc {
+        font-size: 0.85em;
+      }
+      .link-item {
+        padding: 14px 6px 10px 6px;
+      }
     }
   </style>
 </head>
