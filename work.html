@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Papan Nama A4 Stabil</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 400px;
+      max-width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #pages-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      width: 21cm;
+      height: 29.7cm;
+      background: white;
+      border: 1px solid #ccc;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(2, 10cm);
+      grid-template-rows: repeat(5, 5cm);
+      gap: 0.5cm;
+      padding: 0.5cm;
+      box-sizing: border-box;
+      page-break-after: always;
+    }
+
+    .name-cell {
+      border: 1px solid black;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 1.2;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      padding: 0.5em;
+      box-sizing: border-box;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      input, button, h2 {
+        display: none !important;
+      }
+
+      .page {
+        margin: 0;
+        border: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Ketik Nama lalu Tekan Enter</h2>
+  <input type="text" id="nameInput" placeholder="Contoh: Budi Santoso" />
+  <button onclick="downloadPDF()">📄 Download PDF</button>
+
+  <div id="pages-container">
+    <!-- Halaman akan dibuat oleh JavaScript -->
+  </div>
+
+  <script>
+    const nameInput = document.getElementById("nameInput");
+    const pagesContainer = document.getElementById("pages-container");
+
+    const maxPerPage = 10; // 2 kolom × 5 baris
+    let currentPage = null;
+    let cellCount = 0;
+
+    nameInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const name = nameInput.value.trim();
+        if (name !== "") {
+          addName(name);
+          nameInput.value = "";
+        }
+      }
+    });
+
+    function addName(name) {
+      if (!currentPage || cellCount >= maxPerPage) {
+        currentPage = document.createElement("div");
+        currentPage.classList.add("page");
+        pagesContainer.appendChild(currentPage);
+        cellCount = 0;
+      }
+
+      const cell = document.createElement("div");
+      cell.className = "name-cell";
+      cell.textContent = name;
+      currentPage.appendChild(cell);
+      cellCount++;
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById("pages-container");
+      const opt = {
+        margin: 0,
+        filename: 'papan-nama.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: {
+          unit: 'cm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
