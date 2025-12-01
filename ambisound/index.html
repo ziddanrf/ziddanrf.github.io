@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambient Soundscapes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent: #4caf50;
+            --text-main: #e0e0e0;
+            --text-sec: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        header { text-align: center; margin-bottom: 20px; }
+        header h1 { font-weight: 300; letter-spacing: 2px; }
+        header p { color: var(--text-sec); font-size: 0.9rem; }
+
+        /* Navigasi */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            color: var(--text-sec);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* Grid */
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .sound-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid transparent;
+        }
+        .sound-card.playing { border-color: var(--accent); background: #252525; }
+
+        .icon { font-size: 2rem; margin-bottom: 10px; }
+        .label { font-size: 0.9rem; margin-bottom: 15px; }
+
+        /* Slider */
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent; height: 30px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 16px; width: 16px;
+            border-radius: 50%; background: var(--accent); margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; background: #444; border-radius: 2px;
+        }
+
+        /* Controls */
+        .master-controls {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.95); padding: 12px 20px;
+            border-radius: 50px; display: flex; gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #444;
+            z-index: 100; width: max-content;
+        }
+        .action-btn { background: none; border: none; color: white; cursor: pointer; font-weight: 600; }
+        .play-all-btn { color: var(--accent); }
+        .stop-btn { color: #ff5252; }
+
+        /* Hidden Audio Container */
+        #audio-container { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ZenSound</h1>
+        <p>Versi HTML Native</p>
+    </header>
+
+    <nav class="category-nav" id="categoryWrapper"></nav>
+    <main class="sound-grid" id="soundGrid"></main>
+
+    <div id="audio-container"></div>
+
+    <div class="master-controls">
+        <button class="action-btn play-all-btn" onclick="playAll()">▶ Play All</button>
+        <div style="width: 1px; background: #555; height: 20px;"></div>
+        <button class="action-btn stop-btn" onclick="stopAll()">⏹ Stop</button>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const ambianceData = {
+            hutan: {
+                name: "Hutan",
+                sounds: [
+                    { id: 'bird', name: 'Burung', icon: '🐦', file: 'birds.mp3' }, 
+                    { id: 'wind', name: 'Angin', icon: '🍃', file: 'wind.mp3' },
+                    { id: 'river', name: 'Sungai', icon: '🌊', file: 'river.mp3' }
+                ]
+            },
+            hujan: {
+                name: "Hujan",
+                sounds: [
+                    { id: 'rain', name: 'Hujan', icon: '🌧️', file: 'rain.mp3' },
+                    { id: 'thunder', name: 'Petir', icon: '⚡', file: 'thunder.mp3' }
+                ]
+            },
+            malam: {
+                name: "Malam",
+                sounds: [
+                    { id: 'cricket', name: 'Jangkrik', icon: '🦗', file: 'cricket.mp3' }, 
+                    { id: 'frog', name: 'Kodok', icon: '🐸', file: 'frog.mp3' },
+                    { id: 'wind', name: 'Angin', icon: '🍃', file: 'wind.mp3' }
+                ]
+            }
+        };
+
+        let currentCategory = 'hutan'; 
+        const categoryWrapper = document.getElementById('categoryWrapper');
+        const soundGrid = document.getElementById('soundGrid');
+        const audioContainer = document.getElementById('audio-container');
+
+        function init() {
+            // Render Tombol Kategori
+            Object.keys(ambianceData).forEach((key, index) => {
+                const btn = document.createElement('button');
+                btn.className = `cat-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = ambianceData[key].name;
+                btn.onclick = () => changeCategory(key, btn);
+                categoryWrapper.appendChild(btn);
+            });
+            loadSounds(currentCategory);
+        }
+
+        function changeCategory(key, btnElement) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            stopAll(); // Reset saat pindah kategori agar bersih
+            currentCategory = key;
+            loadSounds(key);
+        }
+
+        function loadSounds(key) {
+            soundGrid.innerHTML = '';
+            audioContainer.innerHTML = ''; // Hapus audio element lama
+
+            ambianceData[key].sounds.forEach(sound => {
+                // 1. Buat Elemen HTML <audio> secara fisik
+                // Ini teknik 'HTML Tag' untuk mengakali blokir browser
+                const audioEl = document.createElement('audio');
+                audioEl.id = `audio-${sound.id}`;
+                audioEl.src = sound.file;
+                audioEl.loop = true;
+                // Preload auto agar browser sadar file ini ada
+                audioEl.preload = "auto"; 
+                audioContainer.appendChild(audioEl);
+
+                // 2. Buat Kartu UI
+                const card = document.createElement('div');
+                card.className = 'sound-card';
+                card.id = `card-${sound.id}`;
+                card.innerHTML = `
+                    <div class="icon">${sound.icon}</div>
+                    <div class="label">${sound.name}</div>
+                    <input type="range" min="0" max="100" value="0" 
+                           oninput="controlSound('${sound.id}', this)">
+                `;
+                soundGrid.appendChild(card);
+            });
+        }
+
+        function controlSound(id, slider) {
+            const audioEl = document.getElementById(`audio-${id}`);
+            const card = document.getElementById(`card-${id}`);
+            
+            if(!audioEl) return;
+
+            const volume = slider.value / 100;
+            audioEl.volume = volume;
+
+            if (volume > 0) {
+                if (audioEl.paused) {
+                    audioEl.play().catch(e => {
+                        console.log(e);
+                        alert("Gagal memutar: " + audioEl.src + "\nPastikan nama file benar!");
+                    });
+                    card.classList.add('playing');
+                }
+            } else {
+                audioEl.pause();
+                card.classList.remove('playing');
+            }
+        }
+
+        function playAll() {
+            const sounds = ambianceData[currentCategory].sounds;
+            sounds.forEach(sound => {
+                const card = document.getElementById(`card-${sound.id}`);
+                const slider = card.querySelector('input');
+                const audioEl = document.getElementById(`audio-${sound.id}`);
+                
+                slider.value = 50;
+                audioEl.volume = 0.5;
+                audioEl.play().catch(e => console.log(e));
+                card.classList.add('playing');
+            });
+        }
+
+        function stopAll() {
+            document.querySelectorAll('audio').forEach(a => {
+                a.pause();
+                a.currentTime = 0;
+            });
+            document.querySelectorAll('input[type=range]').forEach(i => i.value = 0);
+            document.querySelectorAll('.sound-card').forEach(c => c.classList.remove('playing'));
+        }
+
+        init();
+    </script>
+</body>
+</html>
